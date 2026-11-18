@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace ASProxyFix
 {
@@ -15,13 +16,32 @@ namespace ASProxyFix
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ModernMainForm());
+            Application.Run(new UniversalMainForm());
         }
     }
 
-    public class ModernMainForm : Form
+    public class IdeProduct
+    {
+        public string Name { get; set; }
+        public string BaseVendorDir { get; set; } // "Google" or "JetBrains"
+        public string DirPattern { get; set; }
+        public string VmOptionsName { get; set; }
+
+        public IdeProduct(string name, string vendor, string pattern, string vmOptions)
+        {
+            Name = name;
+            BaseVendorDir = vendor;
+            DirPattern = pattern;
+            VmOptionsName = vmOptions;
+        }
+
+        public override string ToString() { return Name; }
+    }
+
+    public class UniversalMainForm : Form
     {
         private ComboBox cmbLang;
+        private CheckedListBox chkListIdes;
         private TextBox txtHost;
         private TextBox txtPort;
         private Button btnApply;
@@ -29,6 +49,7 @@ namespace ASProxyFix
         private Button btnHelp;
         private Label lblTitle;
         private Label lblDesc;
+        private Label lblSelectIde;
         private Label lblHost;
         private Label lblPort;
         private Label lblPortHint;
@@ -37,74 +58,93 @@ namespace ASProxyFix
 
         private int currentLang = 1; // 0 = RU, 1 = EN, 2 = ZH
 
+        private List<IdeProduct> allProducts = new List<IdeProduct>
+        {
+            new IdeProduct("Android Studio", "Google", "AndroidStudio*", "studio64.exe.vmoptions"),
+            new IdeProduct("IntelliJ IDEA", "JetBrains", "IntelliJIdea*", "idea64.exe.vmoptions"),
+            new IdeProduct("PyCharm", "JetBrains", "PyCharm*", "pycharm64.exe.vmoptions"),
+            new IdeProduct("WebStorm", "JetBrains", "WebStorm*", "webstorm64.exe.vmoptions"),
+            new IdeProduct("CLion", "JetBrains", "CLion*", "clion64.exe.vmoptions"),
+            new IdeProduct("Rider", "JetBrains", "Rider*", "rider64.exe.vmoptions"),
+            new IdeProduct("GoLand", "JetBrains", "GoLand*", "goland64.exe.vmoptions"),
+            new IdeProduct("PhpStorm", "JetBrains", "PhpStorm*", "phpstorm64.exe.vmoptions"),
+            new IdeProduct("DataGrip", "JetBrains", "DataGrip*", "datagrip64.exe.vmoptions"),
+            new IdeProduct("RustRover", "JetBrains", "RustRover*", "rustrover64.exe.vmoptions")
+        };
+
         private readonly string[][] i18n = new string[][]
         {
             // 0: RU
             new string[] {
-                "Android Studio Proxy Fixer", // 0: Win Title
-                "Исправление авторизации прокси", // 1: Header
-                "Устранение бесконечного диалога Proxy Authentication (IJPL-37161 / Bug 348084787)", // 2: Desc
-                "Хост прокси:", // 3: Host
-                "HTTP Порт:", // 4: Port
-                "(10809 для v2ray/Xray, 7890 для Clash)", // 5: Port hint
-                "⚡ Применить исправление", // 6: Apply
-                "↺ Сбросить настройки", // 7: Restore
-                "📖 Инструкция", // 8: Help
-                "Готово к работе. Закройте Android Studio перед применением.", // 9: Ready
-                "Укажите хост и порт!", // 10: Warn empty
-                "Успешно применено к {0} версиям Android Studio!\n\n1. В студии: Settings -> HTTP Proxy выберите 'No proxy'.\n2. Перезапустите Android Studio.", // 11: Success msg
-                "Готово", // 12: Success title
-                "Параметры прокси успешно сброшены.", // 13: Reset msg
-                "Ошибка: " // 14: Error prefix
+                "JetBrains & Android Studio Proxy Fixer", // 0: Win Title
+                "Универсальный фикс авторизации прокси", // 1: Header
+                "Устранение бага с окном Proxy Authentication для IDE на платформе IntelliJ (IJPL-37161)", // 2: Desc
+                "Выберите целевые IDE:", // 3: Select IDEs
+                "Хост прокси:", // 4: Host
+                "HTTP Порт:", // 5: Port
+                "(10809 для v2ray/Xray, 7890 для Clash)", // 6: Port hint
+                "⚡ Применить исправление", // 7: Apply
+                "↺ Сбросить настройки", // 8: Restore
+                "📖 Инструкция", // 9: Help
+                "Готово к работе. Закройте выбранные IDE перед применением.", // 10: Ready
+                "Укажите хост и порт!", // 11: Warn empty
+                "Выберите хотя бы одну IDE из списка!", // 12: Warn no IDE
+                "Успешно применено к {0} конфигурациям IDE!\n\n1. В настройках IDE (Settings -> HTTP Proxy) выберите 'No proxy'.\n2. Перезапустите среду разработки.", // 13: Success msg
+                "Готово", // 14: Success title
+                "Параметры прокси успешно сброшены.", // 15: Reset msg
+                "Ошибка: " // 16: Error prefix
             },
             // 1: EN
             new string[] {
-                "Android Studio Proxy Fixer",
-                "Proxy Authentication Fixer",
-                "Permanently resolve recurring Proxy Authentication popup (IJPL-37161 / Bug 348084787)",
+                "JetBrains & Android Studio Proxy Fixer",
+                "Universal Proxy Authentication Fixer",
+                "Resolve recurring Proxy Authentication popup across IntelliJ Platform IDEs (IJPL-37161)",
+                "Select Target IDEs:",
                 "Proxy Host:",
                 "HTTP Port:",
                 "(10809 for v2ray/Xray, 7890 for Clash)",
                 "⚡ Apply Fix",
                 "↺ Restore Defaults",
                 "📖 Guide",
-                "Ready. Close Android Studio before applying.",
+                "Ready. Close selected IDEs before applying.",
                 "Please specify host and port!",
-                "Successfully applied to {0} Android Studio installation(s)!\n\n1. In Studio: Settings -> HTTP Proxy -> select 'No proxy'.\n2. Restart Android Studio.",
+                "Please select at least one IDE from the list!",
+                "Successfully applied to {0} IDE configuration(s)!\n\n1. In IDE: Settings -> HTTP Proxy -> select 'No proxy'.\n2. Restart the IDE.",
                 "Success",
                 "Proxy settings successfully reset.",
                 "Error: "
             },
             // 2: ZH
             new string[] {
-                "Android Studio 代理弹窗修复工具",
-                "代理认证弹窗修复",
-                "彻底解决无限弹出 Proxy Authentication 验证窗口问题 (IJPL-37161 / Bug 348084787)",
+                "JetBrains & Android Studio 代理弹窗修复工具",
+                "通用代理认证弹窗修复",
+                "彻底解决 IntelliJ 全系列 IDE 无限弹出 Proxy Authentication 窗口问题 (IJPL-37161)",
+                "选择目标 IDE:",
                 "代理主机:",
                 "HTTP 端口:",
                 "(v2ray/Xray 为 10809，Clash 为 7890)",
                 "⚡ 一键应用修复",
                 "↺ 恢复默认配置",
                 "📖 说明指南",
-                "就绪。应用前请先关闭 Android Studio。",
+                "就绪。应用前请先关闭正在运行的 IDE。",
                 "请输入代理主机和端口！",
-                "已成功应用到 {0} 个版本的 Android Studio 配置中！\n\n1. 打开 Android Studio: Settings -> HTTP Proxy 选择 'No proxy'。\n2. 重启 Android Studio 即可。",
+                "请至少从列表中勾选一款 IDE！",
+                "已成功应用到 {0} 个 IDE 配置目录中！\n\n1. 打开 IDE: Settings -> HTTP Proxy 选择 'No proxy'。\n2. 重启 IDE 即可生效。",
                 "完成",
                 "代理设置已成功重置恢复。",
                 "错误: "
             }
         };
 
-        public ModernMainForm()
+        public UniversalMainForm()
         {
-            // Detect System Language
             string twoLetter = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant();
             if (twoLetter == "ru" || twoLetter == "be" || twoLetter == "uk") currentLang = 0;
             else if (twoLetter == "zh") currentLang = 2;
             else currentLang = 1;
 
             this.Text = i18n[currentLang][0];
-            this.Size = new Size(540, 420);
+            this.Size = new Size(560, 520);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -136,13 +176,13 @@ namespace ASProxyFix
                 Font = new Font("Segoe UI", 8.5f),
                 ForeColor = Color.FromArgb(150, 165, 185),
                 Location = new Point(24, 45),
-                Size = new Size(360, 32)
+                Size = new Size(370, 32)
             };
 
             cmbLang = new ComboBox
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                Location = new Point(410, 18),
+                Location = new Point(430, 18),
                 Size = new Size(95, 26),
                 BackColor = Color.FromArgb(32, 44, 68),
                 ForeColor = Color.White,
@@ -154,8 +194,8 @@ namespace ASProxyFix
 
             btnHelp = new Button
             {
-                Text = i18n[currentLang][8],
-                Location = new Point(410, 48),
+                Text = i18n[currentLang][9],
+                Location = new Point(430, 48),
                 Size = new Size(95, 26),
                 BackColor = Color.FromArgb(38, 54, 82),
                 ForeColor = Color.FromArgb(56, 189, 248),
@@ -171,19 +211,54 @@ namespace ASProxyFix
             topBar.Controls.Add(cmbLang);
             topBar.Controls.Add(btnHelp);
 
-            // Content Panel
+            // IDE Selection Group
+            lblSelectIde = new Label
+            {
+                Text = i18n[currentLang][3],
+                Location = new Point(24, 95),
+                AutoSize = true,
+                ForeColor = Color.FromArgb(180, 200, 225),
+                Font = new Font("Segoe UI Semibold", 9.5f, FontStyle.Bold)
+            };
+
+            chkListIdes = new CheckedListBox
+            {
+                Location = new Point(24, 120),
+                Size = new Size(500, 95),
+                BackColor = Color.FromArgb(24, 32, 50),
+                ForeColor = Color.White,
+                BorderStyle = BorderStyle.FixedSingle,
+                CheckOnClick = true,
+                MultiColumn = true,
+                ColumnWidth = 160
+            };
+
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            for (int i = 0; i < allProducts.Count; i++)
+            {
+                chkListIdes.Items.Add(allProducts[i]);
+                // Check if installed on disk, or check Android Studio & IDEA by default
+                string vendorPath = Path.Combine(appData, allProducts[i].BaseVendorDir);
+                bool hasDirs = Directory.Exists(vendorPath) && Directory.GetDirectories(vendorPath, allProducts[i].DirPattern).Length > 0;
+                if (hasDirs || i == 0 || i == 1)
+                {
+                    chkListIdes.SetItemChecked(i, true);
+                }
+            }
+
+            // Connection Settings Panel
             Panel contentPanel = new Panel
             {
-                Location = new Point(24, 100),
-                Size = new Size(480, 125),
+                Location = new Point(24, 225),
+                Size = new Size(500, 105),
                 BackColor = Color.FromArgb(24, 32, 50),
                 Padding = new Padding(15)
             };
 
             lblHost = new Label
             {
-                Text = i18n[currentLang][3],
-                Location = new Point(20, 25),
+                Text = i18n[currentLang][4],
+                Location = new Point(20, 20),
                 AutoSize = true,
                 ForeColor = Color.FromArgb(200, 215, 235)
             };
@@ -191,7 +266,7 @@ namespace ASProxyFix
             txtHost = new TextBox
             {
                 Text = "127.0.0.1",
-                Location = new Point(135, 22),
+                Location = new Point(135, 17),
                 Size = new Size(160, 26),
                 BackColor = Color.FromArgb(15, 20, 32),
                 ForeColor = Color.White,
@@ -200,8 +275,8 @@ namespace ASProxyFix
 
             lblPort = new Label
             {
-                Text = i18n[currentLang][4],
-                Location = new Point(20, 68),
+                Text = i18n[currentLang][5],
+                Location = new Point(20, 58),
                 AutoSize = true,
                 ForeColor = Color.FromArgb(200, 215, 235)
             };
@@ -209,7 +284,7 @@ namespace ASProxyFix
             txtPort = new TextBox
             {
                 Text = "10809",
-                Location = new Point(135, 65),
+                Location = new Point(135, 55),
                 Size = new Size(85, 26),
                 BackColor = Color.FromArgb(15, 20, 32),
                 ForeColor = Color.White,
@@ -218,8 +293,8 @@ namespace ASProxyFix
 
             lblPortHint = new Label
             {
-                Text = i18n[currentLang][5],
-                Location = new Point(230, 68),
+                Text = i18n[currentLang][6],
+                Location = new Point(230, 58),
                 AutoSize = true,
                 ForeColor = Color.FromArgb(120, 135, 155),
                 Font = new Font("Segoe UI", 8.5f)
@@ -234,9 +309,9 @@ namespace ASProxyFix
             // Action Buttons
             btnApply = new Button
             {
-                Text = i18n[currentLang][6],
-                Location = new Point(24, 240),
-                Size = new Size(290, 42),
+                Text = i18n[currentLang][7],
+                Location = new Point(24, 342),
+                Size = new Size(305, 42),
                 BackColor = Color.FromArgb(14, 165, 233),
                 ForeColor = Color.Black,
                 Font = new Font("Segoe UI Semibold", 10.5f, FontStyle.Bold),
@@ -248,9 +323,9 @@ namespace ASProxyFix
 
             btnRestore = new Button
             {
-                Text = i18n[currentLang][7],
-                Location = new Point(325, 240),
-                Size = new Size(180, 42),
+                Text = i18n[currentLang][8],
+                Location = new Point(340, 342),
+                Size = new Size(184, 42),
                 BackColor = Color.FromArgb(32, 42, 64),
                 ForeColor = Color.FromArgb(200, 215, 235),
                 Font = new Font("Segoe UI", 9.5f),
@@ -263,19 +338,19 @@ namespace ASProxyFix
             // Status Bar
             lblStatus = new Label
             {
-                Text = i18n[currentLang][9],
-                Location = new Point(24, 298),
-                Size = new Size(480, 40),
+                Text = i18n[currentLang][10],
+                Location = new Point(24, 395),
+                Size = new Size(500, 42),
                 ForeColor = Color.FromArgb(56, 189, 248),
                 Font = new Font("Segoe UI", 8.8f)
             };
 
-            // Bottom Footer Link (GitHub moved cleanly here)
+            // Bottom Footer Link
             lnkGitHub = new LinkLabel
             {
                 Text = "GitHub: Ruslik31/android-studio-proxy-auth-fix  •  PR #3770",
-                Location = new Point(24, 348),
-                Size = new Size(480, 20),
+                Location = new Point(24, 445),
+                Size = new Size(500, 20),
                 LinkColor = Color.FromArgb(100, 140, 180),
                 ActiveLinkColor = Color.FromArgb(56, 189, 248),
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -286,6 +361,8 @@ namespace ASProxyFix
             };
 
             this.Controls.Add(topBar);
+            this.Controls.Add(lblSelectIde);
+            this.Controls.Add(chkListIdes);
             this.Controls.Add(contentPanel);
             this.Controls.Add(btnApply);
             this.Controls.Add(btnRestore);
@@ -301,21 +378,21 @@ namespace ASProxyFix
             this.Text = t[0];
             lblTitle.Text = t[1];
             lblDesc.Text = t[2];
-            lblHost.Text = t[3];
-            lblPort.Text = t[4];
-            lblPortHint.Text = t[5];
-            btnApply.Text = t[6];
-            btnRestore.Text = t[7];
-            btnHelp.Text = t[8];
-            lblStatus.Text = t[9];
+            lblSelectIde.Text = t[3];
+            lblHost.Text = t[4];
+            lblPort.Text = t[5];
+            lblPortHint.Text = t[6];
+            btnApply.Text = t[7];
+            btnRestore.Text = t[8];
+            btnHelp.Text = t[9];
+            lblStatus.Text = t[10];
         }
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
             try
             {
-                // Unpack embedded HTML into temp file and open in default browser
-                string tempHtml = Path.Combine(Path.GetTempPath(), "AndroidStudio_Proxy_Guide.html");
+                string tempHtml = Path.Combine(Path.GetTempPath(), "JetBrains_Proxy_Guide.html");
                 File.WriteAllText(tempHtml, EmbeddedGuide.HtmlContent, Encoding.UTF8);
                 Process.Start(new ProcessStartInfo(tempHtml) { UseShellExecute = true });
             }
@@ -332,7 +409,13 @@ namespace ASProxyFix
 
             if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(port))
             {
-                MessageBox.Show(i18n[currentLang][10], "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(i18n[currentLang][11], "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (chkListIdes.CheckedItems.Count == 0)
+            {
+                MessageBox.Show(i18n[currentLang][12], "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -340,25 +423,30 @@ namespace ASProxyFix
             {
                 int modifiedCount = 0;
                 string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                string googleDir = Path.Combine(appData, "Google");
 
-                if (Directory.Exists(googleDir))
+                foreach (IdeProduct prod in chkListIdes.CheckedItems)
                 {
-                    string[] asDirs = Directory.GetDirectories(googleDir, "AndroidStudio*");
-                    foreach (string dir in asDirs)
+                    string vendorDir = Path.Combine(appData, prod.BaseVendorDir);
+                    if (!Directory.Exists(vendorDir)) continue;
+
+                    string[] dirs = Directory.GetDirectories(vendorDir, prod.DirPattern);
+                    foreach (string dir in dirs)
                     {
-                        string vmFile = Path.Combine(dir, "studio64.exe.vmoptions");
+                        // 1. VM Options
+                        string vmFile = Path.Combine(dir, prod.VmOptionsName);
                         string vmContent = File.Exists(vmFile) ? File.ReadAllText(vmFile) : "";
                         vmContent = RemoveProxyLines(vmContent);
                         vmContent += string.Format("\r\n-Dhttp.proxyHost={0}\r\n-Dhttp.proxyPort={1}\r\n-Dhttps.proxyHost={0}\r\n-Dhttps.proxyPort={1}\r\n-Dhttp.nonProxyHosts=localhost|127.0.0.1\r\n-Djdk.http.auth.tunneling.disabledSchemes=\"\"\r\n-Djdk.http.auth.proxying.disabledSchemes=\"\"\r\n", host, port);
                         File.WriteAllText(vmFile, vmContent.Trim() + "\r\n", Encoding.UTF8);
 
+                        // 2. proxy.settings.xml
                         string optDir = Path.Combine(dir, "options");
                         if (!Directory.Exists(optDir)) Directory.CreateDirectory(optDir);
                         string proxyXml = Path.Combine(optDir, "proxy.settings.xml");
                         string xmlText = "<application>\r\n  <component name=\"HttpConfigurable\">\r\n    <option name=\"USE_HTTP_PROXY\" value=\"false\" />\r\n    <option name=\"USE_PROXY_PAC\" value=\"false\" />\r\n    <option name=\"PROXY_AUTHENTICATION\" value=\"false\" />\r\n    <option name=\"KEEP_PROXY_PASSWORD\" value=\"false\" />\r\n  </component>\r\n</application>";
                         File.WriteAllText(proxyXml, xmlText, Encoding.UTF8);
 
+                        // 3. Remove .pwd
                         string pwdFile = Path.Combine(optDir, "proxy.settings.pwd");
                         if (File.Exists(pwdFile)) File.Delete(pwdFile);
 
@@ -366,6 +454,7 @@ namespace ASProxyFix
                     }
                 }
 
+                // 4. Global gradle.properties (for Android Studio & Gradle-based IntelliJ projects)
                 string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 string gradleDir = Path.Combine(userProfile, ".gradle");
                 if (!Directory.Exists(gradleDir)) Directory.CreateDirectory(gradleDir);
@@ -376,15 +465,15 @@ namespace ASProxyFix
                 gContent += string.Format("\r\nsystemProp.http.proxyHost={0}\r\nsystemProp.http.proxyPort={1}\r\nsystemProp.https.proxyHost={0}\r\nsystemProp.https.proxyPort={1}\r\nsystemProp.http.nonProxyHosts=localhost|127.0.0.1\r\nsystemProp.https.nonProxyHosts=localhost|127.0.0.1\r\n", host, port);
                 File.WriteAllText(gradleProps, gContent.Trim() + "\r\n", Encoding.UTF8);
 
-                lblStatus.Text = string.Format(i18n[currentLang][11], modifiedCount);
+                lblStatus.Text = string.Format(i18n[currentLang][13], modifiedCount);
                 lblStatus.ForeColor = Color.FromArgb(74, 222, 128);
-                MessageBox.Show(string.Format(i18n[currentLang][11], modifiedCount), i18n[currentLang][12], MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(string.Format(i18n[currentLang][13], modifiedCount), i18n[currentLang][14], MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                lblStatus.Text = i18n[currentLang][14] + ex.Message;
+                lblStatus.Text = i18n[currentLang][16] + ex.Message;
                 lblStatus.ForeColor = Color.FromArgb(248, 113, 113);
-                MessageBox.Show(i18n[currentLang][14] + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(i18n[currentLang][16] + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -393,14 +482,16 @@ namespace ASProxyFix
             try
             {
                 string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                string googleDir = Path.Combine(appData, "Google");
 
-                if (Directory.Exists(googleDir))
+                foreach (IdeProduct prod in chkListIdes.CheckedItems)
                 {
-                    string[] asDirs = Directory.GetDirectories(googleDir, "AndroidStudio*");
-                    foreach (string dir in asDirs)
+                    string vendorDir = Path.Combine(appData, prod.BaseVendorDir);
+                    if (!Directory.Exists(vendorDir)) continue;
+
+                    string[] dirs = Directory.GetDirectories(vendorDir, prod.DirPattern);
+                    foreach (string dir in dirs)
                     {
-                        string vmFile = Path.Combine(dir, "studio64.exe.vmoptions");
+                        string vmFile = Path.Combine(dir, prod.VmOptionsName);
                         if (File.Exists(vmFile))
                         {
                             string vmContent = RemoveProxyLines(File.ReadAllText(vmFile));
@@ -417,13 +508,13 @@ namespace ASProxyFix
                     File.WriteAllText(gradleProps, gContent.Trim() + "\r\n", Encoding.UTF8);
                 }
 
-                lblStatus.Text = i18n[currentLang][13];
+                lblStatus.Text = i18n[currentLang][15];
                 lblStatus.ForeColor = Color.FromArgb(147, 197, 253);
-                MessageBox.Show(i18n[currentLang][13], i18n[currentLang][12], MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(i18n[currentLang][15], i18n[currentLang][14], MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                lblStatus.Text = i18n[currentLang][14] + ex.Message;
+                lblStatus.Text = i18n[currentLang][16] + ex.Message;
                 lblStatus.ForeColor = Color.FromArgb(248, 113, 113);
             }
         }
