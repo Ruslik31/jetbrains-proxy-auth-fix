@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Инструкция: Исправление бесконечной авторизации прокси в Android Studio</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --code-bg: #090d16;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    p.lead {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    }
+    .card-highlight {
+      border-color: rgba(56, 189, 248, 0.4);
+      background: linear-gradient(180deg, #1e293b 0%, #172033 100%);
+    }
+    h2 {
+      font-size: 1.35rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      color: #000;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 50%;
+    }
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+    li {
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .note {
+      background: rgba(245, 158, 11, 0.1);
+      border-left: 4px solid var(--warning);
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin: 15px 0;
+      font-size: 0.95rem;
+      color: #fde68a;
+    }
+    .tip {
+      background: rgba(34, 197, 94, 0.1);
+      border-left: 4px solid var(--success);
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin: 15px 0;
+      font-size: 0.95rem;
+      color: #bbf7d0;
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.9rem;
+      color: #38bdf8;
+      margin: 12px 0;
+    }
+    code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.9em;
+      color: #e2e8f0;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: var(--accent-hover);
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    .table th, .table td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+    }
+    .table th {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">Решение бага JetBrains & Google (IJPL-37161 / Bug 348084787)</div>
+      <h1>Android Studio: Исправление бага с окном Proxy Authentication</h1>
+      <p class="lead">Как навсегда убрать бесконечно всплывающее окно логина и пароля прокси, даже если прокси не требует пароля или нажата галочка «Remember».</p>
+    </header>
+
+    <div class="card card-highlight">
+      <h2>⚡ Способ 1: Автоматически через мини-программу (Рекомендуется)</h2>
+      <p>Специально создана утилита <strong>AndroidStudio_Proxy_Fix.exe</strong> (размером всего 11 КБ), которая сама находит все установленные версии Android Studio на вашем ПК и настраивает их в один клик.</p>
+      <br>
+      <ol>
+        <li>Запустите <code>AndroidStudio_Proxy_Fix.exe</code>.</li>
+        <li>Проверьте порт вашего прокси (по умолчанию <strong>10809</strong>):
+          <table class="table">
+            <tr>
+              <th>Программа прокси</th>
+              <th>Обычный HTTP-порт</th>
+            </tr>
+            <tr>
+              <td>v2rayN / Xray / Incy</td>
+              <td><strong>10809</strong></td>
+            </tr>
+            <tr>
+              <td>Clash / Mihomo Party / Flclash</td>
+              <td><strong>7890</strong></td>
+            </tr>
+            <tr>
+              <td>NekoBox / Hiddify</td>
+              <td><strong>2080</strong> или <strong>7890</strong></td>
+            </tr>
+          </table>
+        </li>
+        <li>Нажмите кнопку <strong>«Применить исправление»</strong>.</li>
+        <li>В открытой Android Studio перейдите в <code>Settings (Ctrl+Alt+S)</code> → <code>System Settings</code> → <code>HTTP Proxy</code> и выберите <strong>«No proxy»</strong> (это нужно, чтобы отключить сломанный GUI-диалог).</li>
+        <li>Перезапустите Android Studio.</li>
+      </ol>
+      <div class="tip">
+        <strong>Всё готово!</strong> Прокси работает напрямую на уровне JVM и Gradle, а окно авторизации никогда больше не побеспокоит.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🛠️ Способ 2: Ручной способ (без сторонних программ)</h2>
+      <p>Если вы хотите всё сделать руками за 2 минуты:</p>
+
+      <div style="margin-top: 15px;">
+        <h3><span class="step-num">1</span> Отключите прокси в интерфейсе</h3>
+        <p>Откройте Android Studio → <code>Ctrl + Alt + S</code> (Настройки) → <strong>Appearance & Behavior → System Settings → HTTP Proxy</strong>.</p>
+        <p>Выберите радиокнопку <strong>«No proxy»</strong> и нажмите <strong>OK</strong>.</p>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <h3><span class="step-num">2</span> Передайте прокси напрямую виртуальной машине (JVM)</h3>
+        <p>В меню Android Studio нажмите <strong>Help → Edit Custom VM Options...</strong></p>
+        <p>В самый конец открывшегося файла вставьте строки (замените <code>10809</code> на ваш HTTP-порт, если он другой):</p>
+        <pre>-Dhttp.proxyHost=127.0.0.1
+-Dhttp.proxyPort=10809
+-Dhttps.proxyHost=127.0.0.1
+-Dhttps.proxyPort=10809
+-Dhttp.nonProxyHosts=localhost|127.0.0.1
+-Djdk.http.auth.tunneling.disabledSchemes=""
+-Djdk.http.auth.proxying.disabledSchemes=""</pre>
+        <p>Сохраните файл (<code>Ctrl + S</code>).</p>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <h3><span class="step-num">3</span> Настройте Gradle</h3>
+        <p>Откройте файл <code>C:\Users\&lt;ВашеИмя&gt;\.gradle\gradle.properties</code> в любом Блокноте и добавьте:</p>
+        <pre>systemProp.http.proxyHost=127.0.0.1
+systemProp.http.proxyPort=10809
+systemProp.https.proxyHost=127.0.0.1
+systemProp.https.proxyPort=10809
+systemProp.http.nonProxyHosts=localhost|127.0.0.1
+systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <h3><span class="step-num">4</span> Перезапустите Android Studio</h3>
+        <p>При первом запуске может появиться системное предупреждение: <em>«Studio is configured to not use an HTTP proxy, but Gradle is currently using these proxy settings...»</em>.</p>
+        <p>Отметьте галочку <strong>«Больше не показывать это окно»</strong> и нажмите <strong>«Yes»</strong>.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🧠 Почему этот баг вообще происходит? (Технические детали)</h2>
+      <p>В платформе IntelliJ / Android Studio класс <code>IdeProxyAuthenticator</code> проверяет наличие сохраненных данных в <code>PasswordSafe</code>. Когда прокси не требует пароля (или пароль пустой), метод <code>getCredentials()</code> возвращает <code>null</code>.</p>
+      <p>Из-за внутренней ошибки метод считает <code>null</code> поводом немедленно показать окно <code>AuthenticationDialog</code> пользователю. При этом сохранение через «Remember» на Windows часто сбоит из-за несовпадения имен хостов (<code>127.0.0.1</code> vs <code>localhost</code>).</p>
+      <p>Перевод прокси на уровень параметров запуска <strong>JVM (-Dhttp.proxyHost)</strong> полностью обходит проблемный код окна авторизации, заставляя весь сетевой стек Java и Gemini работать стабильно и быстро.</p>
+    </div>
+
+    <footer style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 30px;">
+      Подготовлено для разработчиков Android Studio & IntelliJ Platform
+    </footer>
+  </div>
+</body>
+</html>
