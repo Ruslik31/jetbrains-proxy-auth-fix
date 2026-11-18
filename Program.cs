@@ -348,7 +348,7 @@ namespace ASProxyFix
             // Bottom Footer Link
             lnkGitHub = new LinkLabel
             {
-                Text = "GitHub: Ruslik31/android-studio-proxy-auth-fix  •  PR #3770",
+                Text = "GitHub: Ruslik31/jetbrains-proxy-auth-fix  •  PR #3770",
                 Location = new Point(24, 445),
                 Size = new Size(500, 20),
                 LinkColor = Color.FromArgb(100, 140, 180),
@@ -357,7 +357,7 @@ namespace ASProxyFix
                 Font = new Font("Segoe UI", 8.2f)
             };
             lnkGitHub.LinkClicked += (s, e) => {
-                Process.Start(new ProcessStartInfo("https://github.com/Ruslik31/android-studio-proxy-auth-fix") { UseShellExecute = true });
+                Process.Start(new ProcessStartInfo("https://github.com/Ruslik31/jetbrains-proxy-auth-fix") { UseShellExecute = true });
             };
 
             this.Controls.Add(topBar);
@@ -744,11 +744,11 @@ namespace ASProxyFix
       </header>
 
       <div class=""card card-highlight"">
-        <h2>вљЎ Method 1: Automatic via AndroidStudio_Proxy_Fix.exe</h2>
+        <h2>вљЎ Method 1: Automatic via JetBrains_Proxy_Fix.exe</h2>
         <p>The standalone tool automatically scans all Android Studio installations and patches the configs in 1 click.</p>
         <br>
         <ol>
-          <li>Launch <code>AndroidStudio_Proxy_Fix.exe</code>.</li>
+          <li>Launch <code>JetBrains_Proxy_Fix.exe</code>.</li>
           <li>Verify your proxy HTTP port (default is <strong>10809</strong>):
             <table class=""table"">
               <tr><th>Proxy Client</th><th>Common HTTP Port</th></tr>
@@ -811,11 +811,11 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
       </header>
 
       <div class=""card card-highlight"">
-        <h2>вљЎ РЎРїРѕСЃРѕР± 1: РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё С‡РµСЂРµР· AndroidStudio_Proxy_Fix.exe</h2>
+        <h2>вљЎ РЎРїРѕСЃРѕР± 1: РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё С‡РµСЂРµР· JetBrains_Proxy_Fix.exe</h2>
         <p>РЈС‚РёР»РёС‚Р° СЃР°РјР° РЅР°С…РѕРґРёС‚ РІСЃРµ РІРµСЂСЃРёРё Android Studio РЅР° РІР°С€РµРј РєРѕРјРїСЊСЋС‚РµСЂРµ Рё РїСЂРёРјРµРЅСЏРµС‚ РёСЃРїСЂР°РІР»РµРЅРёРµ РІ 1 РєР»РёРє.</p>
         <br>
         <ol>
-          <li>Р—Р°РїСѓСЃС‚РёС‚Рµ <code>AndroidStudio_Proxy_Fix.exe</code>.</li>
+          <li>Р—Р°РїСѓСЃС‚РёС‚Рµ <code>JetBrains_Proxy_Fix.exe</code>.</li>
           <li>РЈРєР°Р¶РёС‚Рµ РїРѕСЂС‚ РІР°С€РµРіРѕ РїСЂРѕРєСЃРё (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ <strong>10809</strong>):
             <table class=""table"">
               <tr><th>РџСЂРѕРіСЂР°РјРјР° РїСЂРѕРєСЃРё</th><th>РћР±С‹С‡РЅС‹Р№ HTTP-РїРѕСЂС‚</th></tr>
@@ -878,11 +878,11 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
       </header>
 
       <div class=""card card-highlight"">
-        <h2>вљЎ ж–№жі• 1пјљдЅїз”Ё AndroidStudio_Proxy_Fix.exe и‡ЄеЉЁдї®е¤Ќ</h2>
+        <h2>вљЎ ж–№жі• 1пјљдЅїз”Ё JetBrains_Proxy_Fix.exe и‡ЄеЉЁдї®е¤Ќ</h2>
         <p>е·Ґе…·дјљи‡ЄеЉЁжџҐж‰ѕз”µи„‘дё­ж‰Ђжњ‰з‰€жњ¬зљ„ Android StudioпјЊдёЂй”®и‡ЄеЉЁй…ЌзЅ®е®Њж€ђгЂ‚</p>
         <br>
         <ol>
-          <li>иїђиЎЊ <code>AndroidStudio_Proxy_Fix.exe</code>гЂ‚</li>
+          <li>иїђиЎЊ <code>JetBrains_Proxy_Fix.exe</code>гЂ‚</li>
           <li>иѕ“е…Ґжњ¬ењ°д»Јзђ† HTTP з«ЇеЏЈпј€й»и®¤ <strong>10809</strong>пј‰пјљ
             <table class=""table"">
               <tr><th>д»Јзђ†иЅЇд»¶</th><th>еёёи§Ѓ HTTP з«ЇеЏЈ</th></tr>
@@ -937,7 +937,7 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
     </div>
 
     <footer style=""text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 30px;"">
-      Pull Request: <a href=""https://github.com/JetBrains/intellij-community/pull/3770"" target=""_blank"" style=""color: var(--accent);"">JetBrains/intellij-community#3770</a> | GitHub: <a href=""https://github.com/Ruslik31/android-studio-proxy-auth-fix"" target=""_blank"" style=""color: var(--accent);"">Ruslik31/android-studio-proxy-auth-fix</a>
+      Pull Request: <a href=""https://github.com/JetBrains/intellij-community/pull/3770"" target=""_blank"" style=""color: var(--accent);"">JetBrains/intellij-community#3770</a> | GitHub: <a href=""https://github.com/Ruslik31/jetbrains-proxy-auth-fix"" target=""_blank"" style=""color: var(--accent);"">Ruslik31/jetbrains-proxy-auth-fix</a>
     </footer>
   </div>
 
@@ -958,4 +958,5 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
 "; // Populated during build
     }
 }
+
 

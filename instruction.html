@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -179,9 +179,9 @@
 <body>
   <div class="container">
     <div class="lang-switcher">
-      <button class="lang-btn active" onclick="setLang('en')">🇬🇧 English</button>
-      <button class="lang-btn" onclick="setLang('ru')">🇷🇺 Русский</button>
-      <button class="lang-btn" onclick="setLang('zh')">🇨🇳 中文</button>
+      <button class="lang-btn active" onclick="setLang('en')">рџ‡¬рџ‡§ English</button>
+      <button class="lang-btn" onclick="setLang('ru')">рџ‡·рџ‡є Р СѓСЃСЃРєРёР№</button>
+      <button class="lang-btn" onclick="setLang('zh')">рџ‡Ёрџ‡і дё­ж–‡</button>
     </div>
 
     <!-- ENGLISH (DEFAULT) -->
@@ -193,11 +193,11 @@
       </header>
 
       <div class="card card-highlight">
-        <h2>⚡ Method 1: Automatic via AndroidStudio_Proxy_Fix.exe</h2>
+        <h2>вљЎ Method 1: Automatic via JetBrains_Proxy_Fix.exe</h2>
         <p>The standalone tool automatically scans all Android Studio installations and patches the configs in 1 click.</p>
         <br>
         <ol>
-          <li>Launch <code>AndroidStudio_Proxy_Fix.exe</code>.</li>
+          <li>Launch <code>JetBrains_Proxy_Fix.exe</code>.</li>
           <li>Verify your proxy HTTP port (default is <strong>10809</strong>):
             <table class="table">
               <tr><th>Proxy Client</th><th>Common HTTP Port</th></tr>
@@ -207,7 +207,7 @@
             </table>
           </li>
           <li>Click <strong>"Apply Fix"</strong>.</li>
-          <li>In Android Studio: <code>Settings (Ctrl+Alt+S)</code> → <code>System Settings</code> → <code>HTTP Proxy</code> and select <strong>"No proxy"</strong> (disables the bugged Swing dialog).</li>
+          <li>In Android Studio: <code>Settings (Ctrl+Alt+S)</code> в†’ <code>System Settings</code> в†’ <code>HTTP Proxy</code> and select <strong>"No proxy"</strong> (disables the bugged Swing dialog).</li>
           <li>Restart Android Studio. If prompted to keep Gradle proxy settings in <code>gradle.properties</code>, select <strong>"Yes"</strong>.</li>
         </ol>
         <div class="tip">
@@ -216,14 +216,14 @@
       </div>
 
       <div class="card">
-        <h2>🛠️ Method 2: Manual Configuration</h2>
+        <h2>рџ› пёЏ Method 2: Manual Configuration</h2>
         <div style="margin-top: 15px;">
           <h3><span class="step-num">1</span> Disable GUI Proxy</h3>
-          <p>In Android Studio: <strong>Settings → Appearance & Behavior → System Settings → HTTP Proxy</strong>, choose <strong>"No proxy"</strong> and click <strong>OK</strong>.</p>
+          <p>In Android Studio: <strong>Settings в†’ Appearance & Behavior в†’ System Settings в†’ HTTP Proxy</strong>, choose <strong>"No proxy"</strong> and click <strong>OK</strong>.</p>
         </div>
         <div style="margin-top: 20px;">
           <h3><span class="step-num">2</span> Supply Proxy via Custom VM Options</h3>
-          <p>Go to <strong>Help → Edit Custom VM Options...</strong> and append:</p>
+          <p>Go to <strong>Help в†’ Edit Custom VM Options...</strong> and append:</p>
           <pre>-Dhttp.proxyHost=127.0.0.1
 -Dhttp.proxyPort=10809
 -Dhttps.proxyHost=127.0.0.1
@@ -245,7 +245,7 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
       </div>
 
       <div class="card">
-        <h2>🧠 Root Cause Explanation</h2>
+        <h2>рџ§  Root Cause Explanation</h2>
         <p>In IntelliJ Platform, <code>IdeProxyAuthenticator</code> requests credentials from <code>PasswordSafe</code>. When authentication is disabled, it returns <code>null</code>. The IDE mistakenly treats <code>null</code> as "credentials not yet entered", continuously triggering <code>AuthenticationDialog</code>.</p>
         <p>Configuring proxy via JVM system properties bypasses <code>PlatformProxyAuthentication</code> entirely.</p>
       </div>
@@ -254,43 +254,43 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
     <!-- RUSSIAN -->
     <div id="lang-ru" class="lang-section">
       <header>
-        <div class="badge">Официальный баг JetBrains (IJPL-37161) & Google (Issue 348084787)</div>
-        <h1>Android Studio: Исправление бага с окном Proxy Authentication</h1>
-        <p class="lead">Как навсегда убрать бесконечно всплывающее окно логина и пароля прокси, даже если прокси не требует авторизации или нажата галочка «Remember».</p>
+        <div class="badge">РћС„РёС†РёР°Р»СЊРЅС‹Р№ Р±Р°Рі JetBrains (IJPL-37161) & Google (Issue 348084787)</div>
+        <h1>Android Studio: РСЃРїСЂР°РІР»РµРЅРёРµ Р±Р°РіР° СЃ РѕРєРЅРѕРј Proxy Authentication</h1>
+        <p class="lead">РљР°Рє РЅР°РІСЃРµРіРґР° СѓР±СЂР°С‚СЊ Р±РµСЃРєРѕРЅРµС‡РЅРѕ РІСЃРїР»С‹РІР°СЋС‰РµРµ РѕРєРЅРѕ Р»РѕРіРёРЅР° Рё РїР°СЂРѕР»СЏ РїСЂРѕРєСЃРё, РґР°Р¶Рµ РµСЃР»Рё РїСЂРѕРєСЃРё РЅРµ С‚СЂРµР±СѓРµС‚ Р°РІС‚РѕСЂРёР·Р°С†РёРё РёР»Рё РЅР°Р¶Р°С‚Р° РіР°Р»РѕС‡РєР° В«RememberВ».</p>
       </header>
 
       <div class="card card-highlight">
-        <h2>⚡ Способ 1: Автоматически через AndroidStudio_Proxy_Fix.exe</h2>
-        <p>Утилита сама находит все версии Android Studio на вашем компьютере и применяет исправление в 1 клик.</p>
+        <h2>вљЎ РЎРїРѕСЃРѕР± 1: РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё С‡РµСЂРµР· JetBrains_Proxy_Fix.exe</h2>
+        <p>РЈС‚РёР»РёС‚Р° СЃР°РјР° РЅР°С…РѕРґРёС‚ РІСЃРµ РІРµСЂСЃРёРё Android Studio РЅР° РІР°С€РµРј РєРѕРјРїСЊСЋС‚РµСЂРµ Рё РїСЂРёРјРµРЅСЏРµС‚ РёСЃРїСЂР°РІР»РµРЅРёРµ РІ 1 РєР»РёРє.</p>
         <br>
         <ol>
-          <li>Запустите <code>AndroidStudio_Proxy_Fix.exe</code>.</li>
-          <li>Укажите порт вашего прокси (по умолчанию <strong>10809</strong>):
+          <li>Р—Р°РїСѓСЃС‚РёС‚Рµ <code>JetBrains_Proxy_Fix.exe</code>.</li>
+          <li>РЈРєР°Р¶РёС‚Рµ РїРѕСЂС‚ РІР°С€РµРіРѕ РїСЂРѕРєСЃРё (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ <strong>10809</strong>):
             <table class="table">
-              <tr><th>Программа прокси</th><th>Обычный HTTP-порт</th></tr>
+              <tr><th>РџСЂРѕРіСЂР°РјРјР° РїСЂРѕРєСЃРё</th><th>РћР±С‹С‡РЅС‹Р№ HTTP-РїРѕСЂС‚</th></tr>
               <tr><td>v2rayN / Xray / Incy</td><td><strong>10809</strong></td></tr>
               <tr><td>Clash / Mihomo / Flclash</td><td><strong>7890</strong></td></tr>
-              <tr><td>NekoBox / Hiddify</td><td><strong>2080</strong> или <strong>7890</strong></td></tr>
+              <tr><td>NekoBox / Hiddify</td><td><strong>2080</strong> РёР»Рё <strong>7890</strong></td></tr>
             </table>
           </li>
-          <li>Нажмите кнопку <strong>«Применить исправление»</strong>.</li>
-          <li>В Android Studio: <code>Settings (Ctrl+Alt+S)</code> → <code>System Settings</code> → <code>HTTP Proxy</code> и выберите <strong>«No proxy»</strong> (это отключает проблемный Swing-диалог).</li>
-          <li>Перезапустите Android Studio. Если появится окно с вопросом о сохранении настроек в <code>gradle.properties</code> — нажмите <strong>«Yes»</strong>.</li>
+          <li>РќР°Р¶РјРёС‚Рµ РєРЅРѕРїРєСѓ <strong>В«РџСЂРёРјРµРЅРёС‚СЊ РёСЃРїСЂР°РІР»РµРЅРёРµВ»</strong>.</li>
+          <li>Р’ Android Studio: <code>Settings (Ctrl+Alt+S)</code> в†’ <code>System Settings</code> в†’ <code>HTTP Proxy</code> Рё РІС‹Р±РµСЂРёС‚Рµ <strong>В«No proxyВ»</strong> (СЌС‚Рѕ РѕС‚РєР»СЋС‡Р°РµС‚ РїСЂРѕР±Р»РµРјРЅС‹Р№ Swing-РґРёР°Р»РѕРі).</li>
+          <li>РџРµСЂРµР·Р°РїСѓСЃС‚РёС‚Рµ Android Studio. Р•СЃР»Рё РїРѕСЏРІРёС‚СЃСЏ РѕРєРЅРѕ СЃ РІРѕРїСЂРѕСЃРѕРј Рѕ СЃРѕС…СЂР°РЅРµРЅРёРё РЅР°СЃС‚СЂРѕРµРє РІ <code>gradle.properties</code> вЂ” РЅР°Р¶РјРёС‚Рµ <strong>В«YesВ»</strong>.</li>
         </ol>
         <div class="tip">
-          <strong>Готово!</strong> Прокси работает напрямую через параметры JVM и Gradle, а диалог авторизации больше не появится.
+          <strong>Р“РѕС‚РѕРІРѕ!</strong> РџСЂРѕРєСЃРё СЂР°Р±РѕС‚Р°РµС‚ РЅР°РїСЂСЏРјСѓСЋ С‡РµСЂРµР· РїР°СЂР°РјРµС‚СЂС‹ JVM Рё Gradle, Р° РґРёР°Р»РѕРі Р°РІС‚РѕСЂРёР·Р°С†РёРё Р±РѕР»СЊС€Рµ РЅРµ РїРѕСЏРІРёС‚СЃСЏ.
         </div>
       </div>
 
       <div class="card">
-        <h2>🛠️ Способ 2: Ручной способ</h2>
+        <h2>рџ› пёЏ РЎРїРѕСЃРѕР± 2: Р СѓС‡РЅРѕР№ СЃРїРѕСЃРѕР±</h2>
         <div style="margin-top: 15px;">
-          <h3><span class="step-num">1</span> Отключите прокси в интерфейсе</h3>
-          <p>В Android Studio перейдите в <strong>Settings → Appearance & Behavior → System Settings → HTTP Proxy</strong>, выберите <strong>«No proxy»</strong> и нажмите <strong>OK</strong>.</p>
+          <h3><span class="step-num">1</span> РћС‚РєР»СЋС‡РёС‚Рµ РїСЂРѕРєСЃРё РІ РёРЅС‚РµСЂС„РµР№СЃРµ</h3>
+          <p>Р’ Android Studio РїРµСЂРµР№РґРёС‚Рµ РІ <strong>Settings в†’ Appearance & Behavior в†’ System Settings в†’ HTTP Proxy</strong>, РІС‹Р±РµСЂРёС‚Рµ <strong>В«No proxyВ»</strong> Рё РЅР°Р¶РјРёС‚Рµ <strong>OK</strong>.</p>
         </div>
         <div style="margin-top: 20px;">
-          <h3><span class="step-num">2</span> Добавьте прокси в VM Options</h3>
-          <p>В меню нажмите <strong>Help → Edit Custom VM Options...</strong> и добавьте в конец:</p>
+          <h3><span class="step-num">2</span> Р”РѕР±Р°РІСЊС‚Рµ РїСЂРѕРєСЃРё РІ VM Options</h3>
+          <p>Р’ РјРµРЅСЋ РЅР°Р¶РјРёС‚Рµ <strong>Help в†’ Edit Custom VM Options...</strong> Рё РґРѕР±Р°РІСЊС‚Рµ РІ РєРѕРЅРµС†:</p>
           <pre>-Dhttp.proxyHost=127.0.0.1
 -Dhttp.proxyPort=10809
 -Dhttps.proxyHost=127.0.0.1
@@ -300,8 +300,8 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
 -Djdk.http.auth.proxying.disabledSchemes=""</pre>
         </div>
         <div style="margin-top: 20px;">
-          <h3><span class="step-num">3</span> Настройте Gradle</h3>
-          <p>В файле <code>C:\Users\&lt;Имя&gt;\.gradle\gradle.properties</code> укажите:</p>
+          <h3><span class="step-num">3</span> РќР°СЃС‚СЂРѕР№С‚Рµ Gradle</h3>
+          <p>Р’ С„Р°Р№Р»Рµ <code>C:\Users\&lt;РРјСЏ&gt;\.gradle\gradle.properties</code> СѓРєР°Р¶РёС‚Рµ:</p>
           <pre>systemProp.http.proxyHost=127.0.0.1
 systemProp.http.proxyPort=10809
 systemProp.https.proxyHost=127.0.0.1
@@ -312,52 +312,52 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
       </div>
 
       <div class="card">
-        <h2>🧠 Почему возникает этот баг?</h2>
-        <p>В платформе IntelliJ метод <code>IdeProxyAuthenticator</code> запрашивает учетные данные из <code>PasswordSafe</code>. Для прокси без аутентификации метод возвращает <code>null</code>. Из-за архитектурного изъяна IntelliJ считает <code>null</code> поводом немедленно показать пользователю окно ввода пароля.</p>
-        <p>Прямая передача параметров в JVM (<code>-Dhttp.proxyHost</code>) полностью обходит проблемный класс <code>PlatformProxyAuthentication</code>.</p>
+        <h2>рџ§  РџРѕС‡РµРјСѓ РІРѕР·РЅРёРєР°РµС‚ СЌС‚РѕС‚ Р±Р°Рі?</h2>
+        <p>Р’ РїР»Р°С‚С„РѕСЂРјРµ IntelliJ РјРµС‚РѕРґ <code>IdeProxyAuthenticator</code> Р·Р°РїСЂР°С€РёРІР°РµС‚ СѓС‡РµС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ РёР· <code>PasswordSafe</code>. Р”Р»СЏ РїСЂРѕРєСЃРё Р±РµР· Р°СѓС‚РµРЅС‚РёС„РёРєР°С†РёРё РјРµС‚РѕРґ РІРѕР·РІСЂР°С‰Р°РµС‚ <code>null</code>. РР·-Р·Р° Р°СЂС…РёС‚РµРєС‚СѓСЂРЅРѕРіРѕ РёР·СЉСЏРЅР° IntelliJ СЃС‡РёС‚Р°РµС‚ <code>null</code> РїРѕРІРѕРґРѕРј РЅРµРјРµРґР»РµРЅРЅРѕ РїРѕРєР°Р·Р°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ РѕРєРЅРѕ РІРІРѕРґР° РїР°СЂРѕР»СЏ.</p>
+        <p>РџСЂСЏРјР°СЏ РїРµСЂРµРґР°С‡Р° РїР°СЂР°РјРµС‚СЂРѕРІ РІ JVM (<code>-Dhttp.proxyHost</code>) РїРѕР»РЅРѕСЃС‚СЊСЋ РѕР±С…РѕРґРёС‚ РїСЂРѕР±Р»РµРјРЅС‹Р№ РєР»Р°СЃСЃ <code>PlatformProxyAuthentication</code>.</p>
       </div>
     </div>
 
     <!-- CHINESE -->
     <div id="lang-zh" class="lang-section">
       <header>
-        <div class="badge">JetBrains 官方缺陷 (IJPL-37161) & Google Issue 348084787</div>
-        <h1>Android Studio: 彻底解决代理认证弹窗不断弹出的问题</h1>
-        <p class="lead">彻底修复即使无需认证或勾选“记住密码”后，IDE 仍无限次弹出代理用户名和密码窗口的问题。</p>
+        <div class="badge">JetBrains е®ж–№зјєй™· (IJPL-37161) & Google Issue 348084787</div>
+        <h1>Android Studio: еЅ»еє•и§Је†ід»Јзђ†и®¤иЇЃеј№зЄ—дёЌж–­еј№е‡єзљ„й—®йў</h1>
+        <p class="lead">еЅ»еє•дї®е¤ЌеЌідЅїж— йњЂи®¤иЇЃж€–е‹ѕйЂ‰вЂњи®°дЅЏеЇ†з ЃвЂќеђЋпјЊIDE д»Ќж— й™ђж¬Ўеј№е‡єд»Јзђ†з”Ёж€·еђЌе’ЊеЇ†з ЃзЄ—еЏЈзљ„й—®йўгЂ‚</p>
       </header>
 
       <div class="card card-highlight">
-        <h2>⚡ 方法 1：使用 AndroidStudio_Proxy_Fix.exe 自动修复</h2>
-        <p>工具会自动查找电脑中所有版本的 Android Studio，一键自动配置完成。</p>
+        <h2>вљЎ ж–№жі• 1пјљдЅїз”Ё JetBrains_Proxy_Fix.exe и‡ЄеЉЁдї®е¤Ќ</h2>
+        <p>е·Ґе…·дјљи‡ЄеЉЁжџҐж‰ѕз”µи„‘дё­ж‰Ђжњ‰з‰€жњ¬зљ„ Android StudioпјЊдёЂй”®и‡ЄеЉЁй…ЌзЅ®е®Њж€ђгЂ‚</p>
         <br>
         <ol>
-          <li>运行 <code>AndroidStudio_Proxy_Fix.exe</code>。</li>
-          <li>输入本地代理 HTTP 端口（默认 <strong>10809</strong>）：
+          <li>иїђиЎЊ <code>JetBrains_Proxy_Fix.exe</code>гЂ‚</li>
+          <li>иѕ“е…Ґжњ¬ењ°д»Јзђ† HTTP з«ЇеЏЈпј€й»и®¤ <strong>10809</strong>пј‰пјљ
             <table class="table">
-              <tr><th>代理软件</th><th>常见 HTTP 端口</th></tr>
+              <tr><th>д»Јзђ†иЅЇд»¶</th><th>еёёи§Ѓ HTTP з«ЇеЏЈ</th></tr>
               <tr><td>v2rayN / Xray / Incy</td><td><strong>10809</strong></td></tr>
               <tr><td>Clash / Mihomo / Flclash</td><td><strong>7890</strong></td></tr>
-              <tr><td>NekoBox / Hiddify</td><td><strong>2080</strong> 或 <strong>7890</strong></td></tr>
+              <tr><td>NekoBox / Hiddify</td><td><strong>2080</strong> ж€– <strong>7890</strong></td></tr>
             </table>
           </li>
-          <li>点击 <strong>“应用修复”</strong>（Apply Fix）。</li>
-          <li>在 Android Studio 中：<code>Settings (Ctrl+Alt+S)</code> → <code>System Settings</code> → <code>HTTP Proxy</code>，选择 <strong>“No proxy”</strong>（关闭异常的 UI 弹窗）。</li>
-          <li>重启 Android Studio。若弹出是否在 <code>gradle.properties</code> 中保留代理设置，选择 <strong>“Yes”</strong>。</li>
+          <li>з‚№е‡» <strong>вЂњеє”з”Ёдї®е¤ЌвЂќ</strong>пј€Apply Fixпј‰гЂ‚</li>
+          <li>ењЁ Android Studio дё­пјљ<code>Settings (Ctrl+Alt+S)</code> в†’ <code>System Settings</code> в†’ <code>HTTP Proxy</code>пјЊйЂ‰ж‹© <strong>вЂњNo proxyвЂќ</strong>пј€е…ій—­еј‚еёёзљ„ UI еј№зЄ—пј‰гЂ‚</li>
+          <li>й‡ЌеђЇ Android StudioгЂ‚и‹Ґеј№е‡єжЇеђ¦ењЁ <code>gradle.properties</code> дё­дїќз•™д»Јзђ†и®ѕзЅ®пјЊйЂ‰ж‹© <strong>вЂњYesвЂќ</strong>гЂ‚</li>
         </ol>
         <div class="tip">
-          <strong>修复完成！</strong> 代理直接在 JVM 与 Gradle 层生效，不会再有任何烦人弹窗。
+          <strong>дї®е¤Ќе®Њж€ђпјЃ</strong> д»Јзђ†з›ґжЋҐењЁ JVM дёЋ Gradle е±‚з”џж•€пјЊдёЌдјље†Ќжњ‰д»»дЅ•зѓ¦дєєеј№зЄ—гЂ‚
         </div>
       </div>
 
       <div class="card">
-        <h2>🛠️ 方法 2：手动配置</h2>
+        <h2>рџ› пёЏ ж–№жі• 2пјљж‰‹еЉЁй…ЌзЅ®</h2>
         <div style="margin-top: 15px;">
-          <h3><span class="step-num">1</span> 在设置中关闭 UI 代理</h3>
-          <p>打开 Android Studio → <strong>Settings → System Settings → HTTP Proxy</strong>，勾选 <strong>“No proxy”</strong> 并点击 <strong>OK</strong>。</p>
+          <h3><span class="step-num">1</span> ењЁи®ѕзЅ®дё­е…ій—­ UI д»Јзђ†</h3>
+          <p>ж‰“ејЂ Android Studio в†’ <strong>Settings в†’ System Settings в†’ HTTP Proxy</strong>пјЊе‹ѕйЂ‰ <strong>вЂњNo proxyвЂќ</strong> е№¶з‚№е‡» <strong>OK</strong>гЂ‚</p>
         </div>
         <div style="margin-top: 20px;">
-          <h3><span class="step-num">2</span> 在 VM Options 中配置 JVM 代理</h3>
-          <p>点击菜单栏 <strong>Help → Edit Custom VM Options...</strong>，在末尾添加：</p>
+          <h3><span class="step-num">2</span> ењЁ VM Options дё­й…ЌзЅ® JVM д»Јзђ†</h3>
+          <p>з‚№е‡»иЏњеЌ•ж Џ <strong>Help в†’ Edit Custom VM Options...</strong>пјЊењЁжњ«е°ѕж·»еЉ пјљ</p>
           <pre>-Dhttp.proxyHost=127.0.0.1
 -Dhttp.proxyPort=10809
 -Dhttps.proxyHost=127.0.0.1
@@ -367,8 +367,8 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
 -Djdk.http.auth.proxying.disabledSchemes=""</pre>
         </div>
         <div style="margin-top: 20px;">
-          <h3><span class="step-num">3</span> 配置 Gradle</h3>
-          <p>打开 <code>C:\Users\&lt;用户名&gt;\.gradle\gradle.properties</code> 文件并添加：</p>
+          <h3><span class="step-num">3</span> й…ЌзЅ® Gradle</h3>
+          <p>ж‰“ејЂ <code>C:\Users\&lt;з”Ёж€·еђЌ&gt;\.gradle\gradle.properties</code> ж–‡д»¶е№¶ж·»еЉ пјљ</p>
           <pre>systemProp.http.proxyHost=127.0.0.1
 systemProp.http.proxyPort=10809
 systemProp.https.proxyHost=127.0.0.1
@@ -379,14 +379,14 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
       </div>
 
       <div class="card">
-        <h2>🧠 原理分析</h2>
-        <p>IntelliJ 内部的 <code>IdeProxyAuthenticator</code> 会向 <code>PasswordSafe</code> 请求凭据。在不需要认证的代理上，该方法返回 <code>null</code>，而框架错误地将 <code>null</code> 判定为“用户尚未输入密码”，导致每次网络请求都强制弹出 Swing 认证对话框。</p>
-        <p>通过 JVM 参数直连代理可以完全绕过异常的 <code>PlatformProxyAuthentication</code> 模块。</p>
+        <h2>рџ§  еЋџзђ†е€†жћђ</h2>
+        <p>IntelliJ е†…йѓЁзљ„ <code>IdeProxyAuthenticator</code> дјљеђ‘ <code>PasswordSafe</code> иЇ·ж±‚е‡­жЌ®гЂ‚ењЁдёЌйњЂи¦Ѓи®¤иЇЃзљ„д»Јзђ†дёЉпјЊиЇҐж–№жі•иї”е›ћ <code>null</code>пјЊиЂЊжЎ†жћ¶й”™иЇЇењ°е°† <code>null</code> е€¤е®љдёєвЂњз”Ёж€·е°љжњЄиѕ“е…ҐеЇ†з ЃвЂќпјЊеЇји‡ґжЇЏж¬ЎзЅ‘з»њиЇ·ж±‚йѓЅејєе€¶еј№е‡є Swing и®¤иЇЃеЇ№иЇќжЎ†гЂ‚</p>
+        <p>йЂљиї‡ JVM еЏ‚ж•°з›ґиїћд»Јзђ†еЏЇд»Ґе®Ње…Ёз»•иї‡еј‚еёёзљ„ <code>PlatformProxyAuthentication</code> жЁЎеќ—гЂ‚</p>
       </div>
     </div>
 
     <footer style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 30px;">
-      Pull Request: <a href="https://github.com/JetBrains/intellij-community/pull/3770" target="_blank" style="color: var(--accent);">JetBrains/intellij-community#3770</a> | GitHub: <a href="https://github.com/Ruslik31/android-studio-proxy-auth-fix" target="_blank" style="color: var(--accent);">Ruslik31/android-studio-proxy-auth-fix</a>
+      Pull Request: <a href="https://github.com/JetBrains/intellij-community/pull/3770" target="_blank" style="color: var(--accent);">JetBrains/intellij-community#3770</a> | GitHub: <a href="https://github.com/Ruslik31/jetbrains-proxy-auth-fix" target="_blank" style="color: var(--accent);">Ruslik31/jetbrains-proxy-auth-fix</a>
     </footer>
   </div>
 
@@ -398,9 +398,10 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1</pre>
       const target = document.getElementById('lang-' + lang);
       if (target) target.classList.add('active');
       
-      const btn = Array.from(document.querySelectorAll('.lang-btn')).find(b => b.textContent.toLowerCase().includes(lang === 'zh' ? '中文' : (lang === 'ru' ? 'русский' : 'english')));
+      const btn = Array.from(document.querySelectorAll('.lang-btn')).find(b => b.textContent.toLowerCase().includes(lang === 'zh' ? 'дё­ж–‡' : (lang === 'ru' ? 'СЂСѓСЃСЃРєРёР№' : 'english')));
       if (btn) btn.classList.add('active');
     }
   </script>
 </body>
 </html>
+
